@@ -58,4 +58,34 @@ public partial class DistributedLockExtensionsTests
 
 		_handleMock.Verify(h => h.DisposeAsync(), Times.Once());
 	}
+
+	[Fact]
+	public async Task TryExecuteWithLockAsync_ThrowsArgumentNullException_WhenLockIsNull()
+	{
+		IDistributedLock? nullLock = null;
+		await Assert.ThrowsAsync<ArgumentNullException>(() =>
+			nullLock!.TryExecuteWithLockAsync(
+				_ => Task.CompletedTask,
+				expiry: TimeSpan.FromSeconds(30)));
+	}
+
+	[Fact]
+	public async Task TryExecuteWithLockAsync_ThrowsArgumentNullException_WhenActionIsNull()
+	{
+		await Assert.ThrowsAsync<ArgumentNullException>(() =>
+			_lockMock.Object.TryExecuteWithLockAsync(
+				action: null!,
+				expiry: TimeSpan.FromSeconds(30)));
+	}
+
+	[Theory]
+	[InlineData(0)]
+	[InlineData(-1)]
+	public async Task TryExecuteWithLockAsync_ThrowsArgumentOutOfRangeException_WhenExpiryIsNotPositive(int expirySeconds)
+	{
+		await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+			_lockMock.Object.TryExecuteWithLockAsync(
+				_ => Task.CompletedTask,
+				expiry: TimeSpan.FromSeconds(expirySeconds)));
+	}
 }

@@ -73,4 +73,34 @@ public partial class DistributedLockExtensionsTests
 				wait: TimeSpan.FromSeconds(10),
 				cancellationToken: cts.Token));
 	}
+
+	[Fact]
+	public async Task AcquireAsync_ThrowsArgumentNullException_WhenLockIsNull()
+	{
+		IDistributedLock? nullLock = null;
+		await Assert.ThrowsAsync<ArgumentNullException>(() =>
+			nullLock!.AcquireAsync(
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.FromSeconds(5)));
+	}
+
+	[Theory]
+	[InlineData(0)]
+	[InlineData(-1)]
+	public async Task AcquireAsync_ThrowsArgumentOutOfRangeException_WhenExpiryIsNotPositive(int expirySeconds)
+	{
+		await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+			_lockMock.Object.AcquireAsync(
+				expiry: TimeSpan.FromSeconds(expirySeconds),
+				wait: TimeSpan.FromSeconds(5)));
+	}
+
+	[Fact]
+	public async Task AcquireAsync_ThrowsArgumentOutOfRangeException_WhenWaitIsNegative()
+	{
+		await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+			_lockMock.Object.AcquireAsync(
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.FromSeconds(-1)));
+	}
 }

@@ -70,4 +70,90 @@ public partial class DistributedLockExtensionsTests
 
 		Assert.Equal(42, result);
 	}
+
+	[Fact]
+	public async Task ExecuteWithLockAsync_ThrowsArgumentNullException_WhenLockIsNull()
+	{
+		IDistributedLock? nullLock = null;
+		await Assert.ThrowsAsync<ArgumentNullException>(() =>
+			nullLock!.ExecuteWithLockAsync(
+				_ => Task.CompletedTask,
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.FromSeconds(5)));
+	}
+
+	[Fact]
+	public async Task ExecuteWithLockAsync_ThrowsArgumentNullException_WhenActionIsNull()
+	{
+		await Assert.ThrowsAsync<ArgumentNullException>(() =>
+			_lockMock.Object.ExecuteWithLockAsync(
+				action: null!,
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.FromSeconds(5)));
+	}
+
+	[Theory]
+	[InlineData(0)]
+	[InlineData(-1)]
+	public async Task ExecuteWithLockAsync_ThrowsArgumentOutOfRangeException_WhenExpiryIsNotPositive(int expirySeconds)
+	{
+		await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+			_lockMock.Object.ExecuteWithLockAsync(
+				_ => Task.CompletedTask,
+				expiry: TimeSpan.FromSeconds(expirySeconds),
+				wait: TimeSpan.FromSeconds(5)));
+	}
+
+	[Fact]
+	public async Task ExecuteWithLockAsync_ThrowsArgumentOutOfRangeException_WhenWaitIsNegative()
+	{
+		await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+			_lockMock.Object.ExecuteWithLockAsync(
+				_ => Task.CompletedTask,
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.FromSeconds(-1)));
+	}
+
+	[Fact]
+	public async Task ExecuteWithLockAsyncT_ThrowsArgumentNullException_WhenLockIsNull()
+	{
+		IDistributedLock? nullLock = null;
+		await Assert.ThrowsAsync<ArgumentNullException>(() =>
+			nullLock!.ExecuteWithLockAsync(
+				_ => Task.FromResult(42),
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.FromSeconds(5)));
+	}
+
+	[Fact]
+	public async Task ExecuteWithLockAsyncT_ThrowsArgumentNullException_WhenFuncIsNull()
+	{
+		await Assert.ThrowsAsync<ArgumentNullException>(() =>
+			_lockMock.Object.ExecuteWithLockAsync(
+				func: (Func<CancellationToken, Task<int>>)null!,
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.FromSeconds(5)));
+	}
+
+	[Theory]
+	[InlineData(0)]
+	[InlineData(-1)]
+	public async Task ExecuteWithLockAsyncT_ThrowsArgumentOutOfRangeException_WhenExpiryIsNotPositive(int expirySeconds)
+	{
+		await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+			_lockMock.Object.ExecuteWithLockAsync(
+				_ => Task.FromResult(42),
+				expiry: TimeSpan.FromSeconds(expirySeconds),
+				wait: TimeSpan.FromSeconds(5)));
+	}
+
+	[Fact]
+	public async Task ExecuteWithLockAsyncT_ThrowsArgumentOutOfRangeException_WhenWaitIsNegative()
+	{
+		await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() =>
+			_lockMock.Object.ExecuteWithLockAsync(
+				_ => Task.FromResult(42),
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.FromSeconds(-1)));
+	}
 }

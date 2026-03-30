@@ -25,6 +25,10 @@ public static class DistributedLockExtensions
 			TimeSpan wait,
 			CancellationToken cancellationToken = default)
 		{
+			ArgumentNullException.ThrowIfNull(@lock);
+			ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(expiry, TimeSpan.Zero);
+			ArgumentOutOfRangeException.ThrowIfLessThan(wait, TimeSpan.Zero);
+
 			var deadline = DateTime.UtcNow + wait;
 			var delay = _retryInitial;
 
@@ -55,6 +59,11 @@ public static class DistributedLockExtensions
 			TimeSpan wait,
 			CancellationToken cancellationToken = default)
 		{
+			ArgumentNullException.ThrowIfNull(@lock);
+			ArgumentNullException.ThrowIfNull(action);
+			ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(expiry, TimeSpan.Zero);
+			ArgumentOutOfRangeException.ThrowIfLessThan(wait, TimeSpan.Zero);
+
 			await using IDistributedLockHandle handle = await @lock.AcquireAsync(expiry, wait, cancellationToken).ConfigureAwait(false);
 			await action(cancellationToken).ConfigureAwait(false);
 		}
@@ -69,6 +78,11 @@ public static class DistributedLockExtensions
 			TimeSpan wait,
 			CancellationToken cancellationToken = default)
 		{
+			ArgumentNullException.ThrowIfNull(@lock);
+			ArgumentNullException.ThrowIfNull(func);
+			ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(expiry, TimeSpan.Zero);
+			ArgumentOutOfRangeException.ThrowIfLessThan(wait, TimeSpan.Zero);
+
 			await using IDistributedLockHandle handle = await @lock.AcquireAsync(expiry, wait, cancellationToken).ConfigureAwait(false);
 			return await func(cancellationToken).ConfigureAwait(false);
 		}
@@ -83,6 +97,10 @@ public static class DistributedLockExtensions
 			TimeSpan expiry,
 			CancellationToken cancellationToken = default)
 		{
+			ArgumentNullException.ThrowIfNull(@lock);
+			ArgumentNullException.ThrowIfNull(action);
+			ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(expiry, TimeSpan.Zero);
+
 			await using IDistributedLockHandle? handle = await @lock.TryAcquireAsync(expiry, cancellationToken).ConfigureAwait(false);
 			if (handle is null)
 				return false;
@@ -101,6 +119,10 @@ public static class DistributedLockExtensions
 			TimeSpan expiry,
 			CancellationToken cancellationToken = default)
 		{
+			ArgumentNullException.ThrowIfNull(@lock);
+			ArgumentNullException.ThrowIfNull(func);
+			ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(expiry, TimeSpan.Zero);
+
 			await using IDistributedLockHandle? handle = await @lock.TryAcquireAsync(expiry, cancellationToken).ConfigureAwait(false);
 			if (handle is null)
 				return (false, default);
