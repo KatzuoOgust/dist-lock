@@ -1,0 +1,14 @@
+
+2026-03-30 use dotnet sdk 10
+2026-03-30 create src/tests
+2026-03-30 use prefix KatzuoOgust, however use folder/csproj names w/o that prefix (will require RootNamespaces)
+2026-03-30 create DistLock sln and csproj
+2026-03-30 add interface/classes/extensions for distributed lock
+2026-03-30 review existing changed
+2026-03-30 for tests use Subject_Result[_WhenCondition]
+2026-03-30 Tests, Core, Abstractions to trim in namespaces (re-define RootNamespace for that); ensure namespaces adjsuted
+2026-03-30 add editorconfig
+2026-03-30 add gitignore
+2026-03-30 add README.md, CONTRIBUTING.md, AGENTS.md using context-doc-writer skill
+2026-03-30 review code using agent
+

@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DistLock/DistLock.csproj" />
+  </Folder>
+  <Folder Name="/tests/" >
+    <Project Path="tests/DistLock.Tests/DistLock.Tests.csproj" />
+  </Folder>
+</Solution>
