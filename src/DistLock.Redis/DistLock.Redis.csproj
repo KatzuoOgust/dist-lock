@@ -1,11 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <RootNamespace>KatzuoOgust.DistLock.Redis</RootNamespace>
     <AssemblyName>KatzuoOgust.DistLock.Redis</AssemblyName>
+    <Description>Redis-based implementation of distributed locks using StackExchange.Redis.</Description>
+    <PackageId>KatzuoOgust.DistLock.Redis</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

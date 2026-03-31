@@ -1,0 +1,32 @@
+<Project>
+
+  <PropertyGroup>
+    <!-- Common properties for all projects -->
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Common package metadata -->
+    <Authors>Katzuo Ogust</Authors>
+    <Company>Katzuo Ogust</Company>
+    <Copyright>Copyright © 2026 Katzuo Ogust</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/katzuoogust/dist-lock</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/katzuoogust/dist-lock</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>distributed-lock;lock;concurrency;synchronization</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- Deterministic builds -->
+    <ContinuousIntegrationBuild Condition="'$(GITHUB_ACTIONS)' == 'true'">true</ContinuousIntegrationBuild>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+</Project>

@@ -1,11 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <RootNamespace>KatzuoOgust.DistLock</RootNamespace>
     <AssemblyName>KatzuoOgust.DistLock</AssemblyName>
+    <Description>Core abstractions for distributed locking mechanisms, providing interfaces and base types for implementing distributed locks.</Description>
+    <PackageId>KatzuoOgust.DistLock</PackageId>
   </PropertyGroup>
 
 </Project>
