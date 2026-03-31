@@ -26,7 +26,7 @@ internal sealed class RedisDistributedLockHandle : IDistributedLockHandle
 
 	private readonly IDatabase _database;
 	private readonly string _key;
-	private bool _released;
+	private int _released; // 0 = held, 1 = released; mutated via Interlocked
 
 	internal RedisDistributedLockHandle(IDatabase database, string resource, string key, string lockId)
 	{
@@ -43,15 +43,13 @@ internal sealed class RedisDistributedLockHandle : IDistributedLockHandle
 	public string Resource { get; }
 
 	/// <inheritdoc/>
-	public bool IsAcquired => !_released;
+	public bool IsAcquired => _released == 0;
 
 	/// <inheritdoc/>
 	public async Task ReleaseAsync(CancellationToken cancellationToken = default)
 	{
-		if (_released)
+		if (Interlocked.CompareExchange(ref _released, 1, 0) != 0)
 			return;
-
-		_released = true;
 
 		await _database.ScriptEvaluateAsync(
 			ReleaseScript,
@@ -64,7 +62,7 @@ internal sealed class RedisDistributedLockHandle : IDistributedLockHandle
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(expiry, TimeSpan.Zero);
 
-		if (_released)
+		if (Volatile.Read(ref _released) != 0)
 			return false;
 
 		RedisResult result = await _database.ScriptEvaluateAsync(
