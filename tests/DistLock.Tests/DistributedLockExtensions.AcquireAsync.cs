@@ -75,6 +75,24 @@ public partial class DistributedLockExtensionsTests
 	}
 
 	[Fact]
+	public async Task AcquireAsync_ThrowsOperationCanceledException_WhenTokenCancelledAndWaitIsZero()
+	{
+		// Regression: with wait=0 the deadline check used to fire before the cancellation
+		// check, producing DistributedLockException instead of OperationCanceledException.
+		using var cts = new CancellationTokenSource();
+		_lockMock.Setup(l => l.TryAcquireAsync(It.IsAny<TimeSpan>(), It.IsAny<CancellationToken>()))
+				 .ReturnsAsync((IDistributedLockHandle?)null);
+
+		cts.Cancel();
+
+		await Assert.ThrowsAnyAsync<OperationCanceledException>(() =>
+			_lockMock.Object.AcquireAsync(
+				expiry: TimeSpan.FromSeconds(30),
+				wait: TimeSpan.Zero,
+				cancellationToken: cts.Token));
+	}
+
+	[Fact]
 	public async Task AcquireAsync_ThrowsArgumentNullException_WhenLockIsNull()
 	{
 		IDistributedLock? nullLock = null;

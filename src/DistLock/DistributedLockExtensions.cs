@@ -34,6 +34,8 @@ public static class DistributedLockExtensions
 
 			while (true)
 			{
+				cancellationToken.ThrowIfCancellationRequested();
+
 				IDistributedLockHandle? handle = await @lock.TryAcquireAsync(expiry, cancellationToken).ConfigureAwait(false);
 				if (handle is not null)
 					return handle;
