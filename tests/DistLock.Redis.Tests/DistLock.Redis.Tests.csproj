@@ -5,7 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
-    <RootNamespace>KatzuoOgust.DistLock</RootNamespace>
+    <RootNamespace>KatzuoOgust.DistLock.Redis</RootNamespace>
+    <AssemblyName>KatzuoOgust.DistLock.Redis.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

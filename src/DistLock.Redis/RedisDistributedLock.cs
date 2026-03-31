@@ -1,6 +1,6 @@
 using StackExchange.Redis;
 
-namespace KatzuoOgust.DistLock;
+namespace KatzuoOgust.DistLock.Redis;
 
 /// <summary>
 /// A distributed lock for a specific resource backed by Redis.

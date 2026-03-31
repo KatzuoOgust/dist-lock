@@ -1,6 +1,6 @@
 using StackExchange.Redis;
 
-namespace KatzuoOgust.DistLock;
+namespace KatzuoOgust.DistLock.Redis;
 
 /// <summary>
 /// Creates <see cref="IDistributedLock"/> instances backed by Redis.

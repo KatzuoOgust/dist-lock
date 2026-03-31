@@ -4,7 +4,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>KatzuoOgust.DistLock</RootNamespace>
+    <RootNamespace>KatzuoOgust.DistLock.Redis</RootNamespace>
+    <AssemblyName>KatzuoOgust.DistLock.Redis</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

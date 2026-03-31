@@ -1,7 +1,7 @@
 using Moq;
 using StackExchange.Redis;
 
-namespace KatzuoOgust.DistLock;
+namespace KatzuoOgust.DistLock.Redis;
 
 public class RedisDistributedLockProviderTests
 {
