@@ -1,8 +1,10 @@
 <Solution>
   <Folder Name="/src/">
     <Project Path="src/DistLock/DistLock.csproj" />
+    <Project Path="src/DistLock.Redis/DistLock.Redis.csproj" />
   </Folder>
   <Folder Name="/tests/" >
     <Project Path="tests/DistLock.Tests/DistLock.Tests.csproj" />
+    <Project Path="tests/DistLock.Redis.Tests/DistLock.Redis.Tests.csproj" />
   </Folder>
 </Solution>
