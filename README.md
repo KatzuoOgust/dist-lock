@@ -1,5 +1,9 @@
 # DistLock
 
+<div align="center">
+  <img src="./logo.png" alt="DistLock logo" width="200" height="200">
+</div>
+
 > Lightweight distributed-lock abstractions and utilities for .NET 10.
 
 `KatzuoOgust.DistLock` provides a clean, provider-agnostic API for acquiring and releasing distributed locks — letting you plug in any backend (Redis, SQL, etcd, …) while keeping application code free from infrastructure details.
