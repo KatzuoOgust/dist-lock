@@ -1,6 +1,6 @@
 # AGENTS.md — AI agent instructions for DistLock
 
-Behavioral rules for AI coding agents working in this repository.
+Behavioral rules for AI coding agents working in this repository.  
 See also: [CONTRIBUTING.md](CONTRIBUTING.md) for the human contributor guide.
 
 ---
@@ -11,22 +11,26 @@ See also: [CONTRIBUTING.md](CONTRIBUTING.md) for the human contributor guide.
 - **Package manager / build:** `dotnet` CLI only — never use `msbuild` directly
 - **Test framework:** xUnit + Moq
 - **Namespace prefix:** `KatzuoOgust.DistLock` (all projects)
+- **Purpose:** Provider-agnostic distributed lock abstractions for .NET
 
 ## Project layout
 
 ```
-src/DistLock/        → IDistributedLock, IDistributedLockHandle, IDistributedLockProvider,
-                       DistributedLockException, DistributedLockExtensions
+src/DistLock/         → IDistributedLock, IDistributedLockHandle, IDistributedLockProvider,
+                        DistributedLockException, DistributedLockExtensions
 tests/DistLock.Tests/ → xUnit tests
 ```
 
 ## Commands
 
 ```sh
-dotnet build          # build all projects
-dotnet test           # run all tests (always run before finishing)
-dotnet test --no-build  # run tests without rebuilding
+dotnet build              # build all projects
+dotnet test               # run all tests (always run before finishing)
+dotnet test --no-build    # run tests without rebuilding
+dotnet build --no-restore # skip restore step if dependencies unchanged
 ```
+
+**Before finishing any task:** always run `dotnet test` to verify no regressions.
 
 ## Conventions
 
@@ -37,6 +41,11 @@ dotnet test --no-build  # run tests without rebuilding
 - **Interfaces:** must start with `I` (enforced by `.editorconfig`).
 - **`using` directives:** outside namespace declarations.
 - **No `this.` qualification** on members.
+- **XML documentation:** required for all public types and members.
+
+## Architecture
+
+The core library defines **interfaces only** — no implementations. Backend-specific packages (Redis, SQL, etc.) implement `IDistributedLockProvider` and register themselves in DI.
 
 ## Hard constraints
 

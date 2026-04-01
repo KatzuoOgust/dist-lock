@@ -4,9 +4,23 @@
   <img src="./logo.png" alt="DistLock logo" width="200" height="200">
 </div>
 
+[![CI](https://github.com/KatzuoOgust/dist-lock/actions/workflows/ci.yml/badge.svg)](https://github.com/KatzuoOgust/dist-lock/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/KatzuoOgust/dist-lock/actions/workflows/codeql.yml/badge.svg)](https://github.com/KatzuoOgust/dist-lock/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![.NET 10](https://img.shields.io/badge/.NET-10-512BD4)](https://dotnet.microsoft.com/)
+
 > Lightweight distributed-lock abstractions and utilities for .NET 10.
 
 `KatzuoOgust.DistLock` provides a clean, provider-agnostic API for acquiring and releasing distributed locks — letting you plug in any backend (Redis, SQL, etcd, …) while keeping application code free from infrastructure details.
+
+---
+
+## Features
+
+- **Provider-agnostic design** — implement `IDistributedLockProvider` once, swap backends freely
+- **Flexible API** — execute work safely, acquire handles directly, or try without throwing
+- **Built on abstractions** — clean interfaces for testability and decoupling
+- **Production-ready** — xUnit test suite, EditorConfig linting, CI/CD pipeline
 
 ---
 
