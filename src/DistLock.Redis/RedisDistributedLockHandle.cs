@@ -54,7 +54,8 @@ internal sealed class RedisDistributedLockHandle : IDistributedLockHandle
 		await _database.ScriptEvaluateAsync(
 			ReleaseScript,
 			keys: [_key],
-			values: [LockId]).ConfigureAwait(false);
+			values: [LockId]
+		).ConfigureAwait(false);
 	}
 
 	/// <inheritdoc/>
@@ -68,7 +69,8 @@ internal sealed class RedisDistributedLockHandle : IDistributedLockHandle
 		RedisResult result = await _database.ScriptEvaluateAsync(
 			ExtendScript,
 			keys: [_key],
-			values: [LockId, (long)expiry.TotalMilliseconds]).ConfigureAwait(false);
+			values: [LockId, (long)expiry.TotalMilliseconds]
+		).ConfigureAwait(false);
 
 		return (long)result == 1;
 	}

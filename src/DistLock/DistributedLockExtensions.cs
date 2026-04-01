@@ -6,7 +6,7 @@ namespace KatzuoOgust.DistLock;
 public static class DistributedLockExtensions
 {
 	private static readonly TimeSpan _retryInitial = TimeSpan.FromMilliseconds(50);
-	private static readonly TimeSpan _retryMax     = TimeSpan.FromSeconds(1);
+	private static readonly TimeSpan _retryMax = TimeSpan.FromSeconds(1);
 
 	extension(IDistributedLock @lock)
 	{
@@ -29,8 +29,8 @@ public static class DistributedLockExtensions
 			ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(expiry, TimeSpan.Zero);
 			ArgumentOutOfRangeException.ThrowIfLessThan(wait, TimeSpan.Zero);
 
-			var deadline = DateTime.UtcNow + wait;
-			var delay = _retryInitial;
+			DateTime deadline = DateTime.UtcNow + wait;
+			TimeSpan delay = _retryInitial;
 
 			while (true)
 			{
@@ -40,11 +40,11 @@ public static class DistributedLockExtensions
 				if (handle is not null)
 					return handle;
 
-				var remaining = deadline - DateTime.UtcNow;
+				TimeSpan remaining = deadline - DateTime.UtcNow;
 				if (remaining <= TimeSpan.Zero)
 					throw Error.LockNotAcquired(@lock.Resource, wait);
 
-				var sleep = delay < remaining ? delay : remaining;
+				TimeSpan sleep = delay < remaining ? delay : remaining;
 				await Task.Delay(sleep, cancellationToken).ConfigureAwait(false);
 
 				delay = delay.Ticks * 2 < _retryMax.Ticks ? TimeSpan.FromTicks(delay.Ticks * 2) : _retryMax;

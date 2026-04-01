@@ -27,7 +27,7 @@ internal sealed class RedisDistributedLock : IDistributedLock
 	{
 		ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(expiry, TimeSpan.Zero);
 
-		var lockId = Guid.NewGuid().ToString("N");
+		string lockId = Guid.NewGuid().ToString("N");
 		bool acquired = await _database
 			.StringSetAsync(_key, lockId, expiry, When.NotExists, CommandFlags.None)
 			.ConfigureAwait(false);
